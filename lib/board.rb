@@ -1,24 +1,18 @@
 class Board
-  attr_accessor :board, :player
+  attr_accessor :cells
 
   def initialize(params= {})
-    self.player = params[:player]
-    self.board = [[nil,nil,nil],[nil,nil,nil],[nil,nil,nil]]
+    self.cells = [[nil,nil,nil],[nil,nil,nil],[nil,nil,nil]]
   end
 
-  def play(x,y)
-      raise InvalidPlayError if board[x][y] != nil
-      board[x][y] = player
-
+  def place(move)
+      valid?(move)
+      cells[move.x][move.y] = move.player
+      return true
   end
 
-end
-
-
-class InvalidPlayError < StandardError
-
-  def initialize(msg="This cell is occupied")
-    super
+  def valid?(move)
+    raise InvalidPlayError if cells[move.x][move.y] != nil
   end
 
 end
