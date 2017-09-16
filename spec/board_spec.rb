@@ -42,4 +42,8 @@ describe Board do
   it "should raise error if coordinates are out of range" do
     expect{board.place("X1","X")}.to raise_error(InvalidPlayError)
   end
+
+  it "should raise error if coordinates are not alpha numeral" do
+    expect{board.place("11","X")}.to raise_error(InvalidPlayError)
+  end
 end

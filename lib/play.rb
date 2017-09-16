@@ -1,30 +1,32 @@
 
 class Play
-  attr_accessor :game, :player
+  attr_accessor :game, :human, :ai
 
   def initialize(params = {})
-    self.player = params[:player]  if params[:player]
-    player_select unless self.player
-    self.game = Game.new(player: player)
+    self.human = params[:human].upcase if params[:human]
+    self.game = Game.new(player: human_player)
+    self.ai = AI.new(human_player: human)
   end
 
 
-  def player_select
+  def human_player
+    return self.human if self.human
     puts "Would you like to be X or O?"
-    player = ""
-    while player.empty? do
-      player = get_stdin
-      if player.upcase == "X" || player.upcase == "O"
+    human = ""
+    while human.empty? do
+      human = get_stdin
+      if human.upcase == "X" || human.upcase == "O"
         break
       else
         puts "You can only be X or 0. Try again"
-        player = ""
+        human = ""
       end
     end
-     self.player = player
+     self.human = human.upcase
   end
 
   def place_turn( coord )
+    game.player = human_player
     game.turn(coord)
   end
 

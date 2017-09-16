@@ -1,11 +1,20 @@
 require 'matrix'
 
-class Game
+class Game #state
   attr_accessor :board, :player
 
   def initialize(params = {})
     self.player = params[:player]
     self.board = Board.new()
+  end
+
+  def next_player
+    case player
+    when "X"
+      return "O"
+    when "O"
+      return "X"
+    end
   end
 
   def turn(coord)
@@ -15,6 +24,7 @@ class Game
 
   def win?(p)
     cells = board.cells
+    return "draw" if cells.flatten.compact.size > 8
     n = cells.size
     m = Matrix[*cells]
     pvec = Matrix.build(1,n){p}.row(0)
