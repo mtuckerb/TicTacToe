@@ -1,18 +1,54 @@
 class Board
   attr_accessor :cells
 
-  def initialize(params= {})
+  def initialize
     self.cells = [[nil,nil,nil],[nil,nil,nil],[nil,nil,nil]]
   end
 
-  def place(move)
-      valid?(move)
-      cells[move.x][move.y] = move.player
-      return true
+  def place(coord, player)
+    x,y = coord_array(coord)
+    valid?(x,y)
+    cells[x][y] = player
+    return true
   end
 
-  def valid?(move)
-    raise InvalidPlayError if cells[move.x][move.y] != nil
+  def valid?(x,y)
+    raise InvalidPlayError, "That is not a valid placement" if x > 2 || y > 2
+    raise InvalidPlayError if cells[x][y] != nil
+  end
+
+  def draw
+    string = "     A   B   C\n"
+    cells.each_with_index do |x,idx|
+      string += outline(idx+1)
+      x.each_with_index do |y,i|
+        string += fill_cell(y,i)
+      end
+      string += "|\n"
+    end
+    string
+    string += "   +---+---+---+\n"
+    return string
+  end
+
+  def fill_cell(value, i)
+    if value
+      result = "| #{value} "
+    else
+      result = "|   "
+    end
+    return result
+  end
+
+  def outline(idx)
+    return "   +---+---+---+\n#{idx}  "
+  end
+
+  def coord_array(coord)
+    arr = coord.match(/(.)(.)/).to_a
+    y = arr[1].downcase.ord - 97
+    x = arr[2].to_i - 1
+    return x,y
   end
 
 end

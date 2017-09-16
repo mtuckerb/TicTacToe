@@ -4,12 +4,10 @@ class Play
 
   def initialize(params = {})
     self.player = params[:player]  if params[:player]
+    player_select unless self.player
+    self.game = Game.new(player: player)
   end
 
-  def start
-      player_select unless self.player
-      self.game = Game.new(player: player)
-  end
 
   def player_select
     puts "Would you like to be X or O?"
@@ -23,7 +21,11 @@ class Play
         player = ""
       end
     end
-    return player
+     self.player = player
+  end
+
+  def place_turn( coord )
+    game.turn(coord)
   end
 
     # creating a method for this to make mocking easier

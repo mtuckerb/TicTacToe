@@ -8,9 +8,9 @@ class Game
     self.board = Board.new()
   end
 
-  def turn(move)
-    board.place(move)
-    return win?(player)
+  def turn(coord)
+    board.place( coord, self.player )
+    return win?(self.player)
   end
 
   def win?(p)
@@ -18,10 +18,15 @@ class Game
     n = cells.size
     m = Matrix[*cells]
     pvec = Matrix.build(1,n){p}.row(0)
-    m.row_vectors.any?    { |r| r == pvec }      ||
+    if m.row_vectors.any?    { |r| r == pvec }      ||
       m.column_vectors.any? { |c| c == pvec }    ||
       Vector[*m.each(:diagonal).to_a] == pvec    ||
       n.times.all? { |i| cells[i][n-i-1] == p }
+        return(p)
+    end
   end
+  # turn the coordinates into an [x,y] array
+
+
 
 end

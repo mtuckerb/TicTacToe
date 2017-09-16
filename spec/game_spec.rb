@@ -8,9 +8,10 @@ describe Game do
   end
 
   it "returns true if the last play won" do
-    game.turn(Move.new(0,0,"X"))
-    expect(game.turn(Move.new(0,1,"X"))).to eq(false)
-    expect(game.turn(Move.new(0,2,"X"))).to eq(true)
+    game.turn("A1")
+    expect(game.turn("A2")).to eq(nil)
+    expect(game.turn("A3")).to eq("X")
   end
+
 
 end
