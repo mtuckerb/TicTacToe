@@ -16,8 +16,8 @@ class AI
     # next_ai_turn = available_moves(game.board).sample
     clone_game(game)
     minimax(game_clone, self.turn)
-    self.turn += 1
     game.turn(self.choice)
+    self.turn += 1
   end
 
   def available_moves(board)
@@ -49,11 +49,7 @@ class AI
 
   #something weird is happening here. it's returning an array but if you t
   def minimax(game, depth)
-    if game.win?("X") || game.win?("O")
-      # puts "#{game.win? "X"} #{game.win? "O"}"
-      # puts "D: #{depth} S:#{score(game,depth)} P:#{game.player}:  C:#{self.choice}"
-      return score(game, depth)
-    end
+    return score(game, depth) if game.win?("X") || game.win?("O")
     depth += 1
     moves = []
     scores = []

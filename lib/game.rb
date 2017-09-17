@@ -23,7 +23,6 @@ class Game #state
 
   def win?(p)
     cells = board.cells
-    return "draw" if cells.flatten.compact.size > 8
     n = cells.size
     m = Matrix[*cells]
     pvec = Matrix.build(1,n){p}.row(0)
@@ -33,6 +32,7 @@ class Game #state
       n.times.all? { |i| cells[i][n-i-1] == p }
         return(p)
     end
+    return "draw" if cells.flatten.compact.size > 8
   end
   # turn the coordinates into an [x,y] array
 
