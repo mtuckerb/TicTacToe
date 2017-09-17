@@ -4,22 +4,21 @@ class Game #state
   attr_accessor :board, :player
 
   def initialize(params = {})
-    self.player = params[:player]
+    self.player = "X"
     self.board = Board.new()
   end
 
   def next_player
-    case player
-    when "X"
-      return "O"
-    when "O"
-      return "X"
-    end
+    ["X","O"].reject{|a| a == player}.first
+  end
+
+  def next_player!
+    self.player = self.next_player
   end
 
   def turn(coord)
     board.place( coord, self.player )
-    return win?(self.player)
+    return self
   end
 
   def win?(p)

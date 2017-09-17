@@ -1,16 +1,23 @@
+require 'pry'
 class AI
-
-  attr_accessor :human_player, :ai_player
+  attr_accessor :human_player, :ai_player,:turn, :game_clone, :choice
 
   def initialize(params = {})
     self.ai_player = ["X","O"].reject{|a| a == params[:human_player] }.first
+    self.turn = 0
+
+  end
+
+  def clone_game(game)
+    self.game_clone = Marshal.load(Marshal.dump(game) )
   end
 
   def takes_turn(game)
-    # game.player = ai_player
-    next_ai_turn = available_moves(game.board).sample
-    puts "Computer Takes #{next_ai_turn}"
-    game.turn(next_ai_turn)
+    # next_ai_turn = available_moves(game.board).sample
+    clone_game(game)
+    minimax(game_clone, self.turn)
+    game.turn(self.choice)
+    self.turn += 1
   end
 
   def available_moves(board)
@@ -29,4 +36,39 @@ class AI
     letter = {0 => "A", 1 => "B", 2 => "C"}
     return letter[num]
   end
+
+  def score(game, depth)
+    case game.win?(self.ai_player)
+    when ai_player
+      return 10 - depth
+    when human_player
+      return depth - 10
+    else
+      return 0
+    end
+  end
+
+  #something weird is happening here. it's returning an array but if you t
+  def minimax(game, depth=0)
+    return score(game, depth) if game.win?("X") || game.win?("O")
+    depth += 1
+    moves = []
+    scores = []
+    possible_game = clone_game(game)
+    available_moves(possible_game.board).each do | move |
+      possible_game.turn(move)
+      scores.push(minimax(possible_game, depth))
+      moves.push(move)
+    end
+    if possible_game.player == self.ai_player
+       max_score_index = scores.each_with_index.max[1]
+       self.choice = moves[max_score_index]
+       return scores[max_score_index]
+     else
+       min_score_index = scores.each_with_index.min[1]
+       self.choice = moves[min_score_index]
+       return scores[min_score_index]
+     end
+
+    end
 end

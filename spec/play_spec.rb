@@ -1,4 +1,4 @@
-require_relative '../tick-tack-toe.rb'
+require_relative '../tic-tac-toe.rb'
 
 
 describe Play do

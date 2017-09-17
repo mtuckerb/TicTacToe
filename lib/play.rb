@@ -4,7 +4,7 @@ class Play
 
   def initialize(params = {})
     self.human = params[:human].upcase if params[:human]
-    self.game = Game.new(player: "X")
+    self.game = Game.new
     self.ai = AI.new(human_player: human)
   end
 

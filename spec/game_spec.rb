@@ -1,4 +1,4 @@
-require_relative '../tick-tack-toe'
+require_relative '../tic-tac-toe'
 describe Game do
 
   let(:game) {Game.new(player: "X")}
@@ -9,8 +9,10 @@ describe Game do
 
   it "returns true if the last play won" do
     game.turn("A1")
-    expect(game.turn("A2")).to eq(nil)
-    expect(game.turn("A3")).to eq("X")
+    game.turn("A2")
+    expect(game.win?(game.player)).to eq(nil)
+    game.turn("A3")
+    expect(game.win?(game.player)).to eq("X")
   end
 
   it "returns draw if game is a stalemate" do
@@ -29,11 +31,18 @@ describe Game do
     game.turn("C1")
     game.turn("C2")
     game.player = "O"
-    expect(game.turn("C3")).to eq "draw"
+    game.turn("C3")
+    expect(game.win?("O")).to eq "draw"
   end
 
     it "returns the next player's letter" do
       game.player = "X"
       expect(game.next_player).to eq("O")
+    end
+
+    it "sets Game#player to the next player" do
+      game.player = "X"
+      game.next_player!
+      expect(game.player).to eq("O")
     end
 end

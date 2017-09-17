@@ -1,4 +1,4 @@
-  require_relative '../tick-tack-toe'
+  require_relative '../tic-tac-toe'
 
 
 describe Board do
