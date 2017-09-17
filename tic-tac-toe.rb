@@ -32,10 +32,11 @@ class TicTacToe
   def turn
     begin
       puts @game.board.draw
-      puts "What is your next move (e.g. A1)"
       if @play.human == @game.player
+        puts "What is your next move (e.g. A1)"
         @play.place_turn(gets.chomp)
       else
+        puts "Computer is thinking. Please wait…"
         @play.ai.takes_turn(@game)
       end
       @win = @game.win?(@game.player)

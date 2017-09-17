@@ -49,10 +49,11 @@ describe AI do
     game.turn("A1")
     game.player = "X"
     game.turn("A2")
-    game.player = "X"
+    game.player = "O"
     game.turn("A3")
     game.player = "X"
     game.turn("B1")
+    puts game.board.draw
     game.player = "O"
     game.turn("B2")
     choice = ai.minimax(game,3)
