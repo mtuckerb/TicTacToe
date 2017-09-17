@@ -49,6 +49,10 @@ class AI
 
   #something weird is happening here. it's returning an array but if you t
   def minimax(game, depth)
+    if self.turn == 0 && self.ai_player == "X"
+      self.choice = "C3"
+      return 9
+    end
     return score(game, depth) if game.win?("X") || game.win?("O")
     depth += 1
     moves = []
