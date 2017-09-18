@@ -21,7 +21,7 @@ class Board
     string = "     A   B   C\n"
     cells.each_with_index do |x,idx|
       string += outline(idx+1)
-      x.each_with_index do |y,i|
+      x.each do |y|
         string += fill_cell(y)
       end
       string += "|\n"
@@ -44,7 +44,7 @@ class Board
   end
 
   def coord_array(coord)
-    # arr = coord.match(/([A,B,C])([1,2,3])/i).to_a
+    arr = coord.match(/([A,B,C])([1,2,3])/i).to_a
     unless arr[1] && arr[2]
       raise InvalidPlayError, "#{coord} invalid:  must be in the format [a-c][1-3]"
     end
