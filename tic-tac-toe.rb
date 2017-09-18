@@ -1,6 +1,5 @@
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each {|file| require file }
 
-
 class TicTacToe
 
   def initialize
@@ -11,11 +10,11 @@ class TicTacToe
     system "clear"
     until @win do
       turn
-      puts "Current: #{@game.player} Turn: #{@game.turn_no}"
     end
   end
 
   def set_human_player
+    system "clear"
     puts "Would you like to be X or O?"
     human = ""
     while human.empty? do
@@ -38,7 +37,7 @@ class TicTacToe
         puts "What is your next move (e.g. A1)"
         @play.place_turn(gets.chomp)
       else
-        puts "Computer is thinking. Please wait…"
+        puts "Computer is thinking. Please wait..."
         @play.ai.takes_turn(@game)
       end
       @win = @game.win?
@@ -55,7 +54,6 @@ class TicTacToe
     end
     return nil
   end
-
 
   def end_game?(win)
     if win == @play.human_player

@@ -1,5 +1,4 @@
 require_relative '../tic-tac-toe'
-require 'pry'
 describe AI do
 
   let(:play) { Play.new(human: "X") }
@@ -23,7 +22,7 @@ describe AI do
     expect(play.ai.available_moves(play.game.board)).to eq ["A1", "A2", "B2", "C2", "A3", "B3", "C3"]
   end
 
-  it "shows a +5 score on 3 turn win?" do
+  it "shows a +8 score on 3 turn win?" do
     game = play.game
     ai.human_player = "O"
     game.turn("A1")
@@ -31,10 +30,10 @@ describe AI do
     game.turn("A2")
     game.turn("B2")
     game.turn("A3")
-    expect(ai.score(game, 3)).to eq 7
+    expect(ai.score(game)).to eq 8
   end
 
-  it "shows a -5 score on 3 turn loss" do
+  it "shows a -8 score on 3 turn loss" do
     game = play.game
     ai.human_player = "X"
     game.turn("A1")
@@ -42,7 +41,7 @@ describe AI do
     game.turn("A2")
     game.turn("B2")
     game.turn("A3")
-    expect(ai.score(game, 3)).to eq(-7)
+    expect(ai.score(game)).to eq(-8)
   end
 
   it "minimax scores remaining moves" do

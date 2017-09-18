@@ -1,4 +1,3 @@
-
 class Play
   attr_accessor :game,  :ai, :human
 
@@ -22,7 +21,5 @@ class Play
     game.player = human_player
     game.turn(coord)
   end
-
-
-
+  
 end #class

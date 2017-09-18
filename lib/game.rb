@@ -28,10 +28,6 @@ class Game #state
     return self
   end
 
-  def over?
-    self.win?
-  end
-
   def win?
     ["X","O"].each do |p|
       cells = board.cells
@@ -48,8 +44,5 @@ class Game #state
     end
     return nil
   end
-  # turn the coordinates into an [x,y] array
-
-
 
 end

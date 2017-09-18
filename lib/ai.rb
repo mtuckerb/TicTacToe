@@ -41,7 +41,8 @@ class AI
     return letter[num]
   end
 
-  def score(game, depth)
+  def score(game )
+    depth = game.turn_no
     if game.win? == self.ai_player
         return 10 - depth
     elsif game.win? == self.human_player
@@ -57,7 +58,7 @@ class AI
       self.choice = "C3"
       return 10
     end
-    return score(game, game.turn_no) if game.over?
+    return score(game) if game.win?
     moves = []
     scores = []
     available_moves(game.board).each do | move |
@@ -74,6 +75,5 @@ class AI
        self.choice = moves[min_score_index]
        return scores[min_score_index]
     end
-
   end
 end
