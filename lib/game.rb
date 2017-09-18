@@ -3,7 +3,7 @@ require 'matrix'
 class Game #state
   attr_accessor :board, :player
 
-  def initialize(params = {})
+  def initialize
     self.player = "X"
     self.board = Board.new()
   end

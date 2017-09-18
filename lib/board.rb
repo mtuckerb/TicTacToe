@@ -26,12 +26,11 @@ class Board
       end
       string += "|\n"
     end
-    string
     string += "   +---+---+---+\n"
     return string
   end
 
-  def fill_cell(value, i)
+  def fill_cell(value)
     if value
       result = "| #{value} "
     else

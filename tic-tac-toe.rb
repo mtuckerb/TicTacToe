@@ -10,7 +10,7 @@ class TicTacToe
     set_human_player
     system "clear"
     until @win do
-       turn
+      turn
     end
   end
 
@@ -49,6 +49,7 @@ class TicTacToe
       return @win if end_game?(@win)
       return nil
     rescue InvalidPlayError => e
+      system "clear"
       puts e
     end
     return nil
