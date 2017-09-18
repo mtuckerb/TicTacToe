@@ -10,6 +10,7 @@ describe AI do
   end
 
   it "takes a turn" do
+    play.place_turn("A1") # speeds up test to take first turn
     cells = play.game.board.cells.dup.map(&:dup)
     play.ai.takes_turn(play.game)
     expect(cells).not_to eq(play.game.board.cells)
@@ -22,41 +23,37 @@ describe AI do
     expect(play.ai.available_moves(play.game.board)).to eq ["A1", "A2", "B2", "C2", "A3", "B3", "C3"]
   end
 
-  it "shows a +7 score on single turn win?" do
+  it "shows a +5 score on 3 turn win?" do
     game = play.game
-    ai.ai_player = "O"
-    game.player = "O"
+    ai.human_player = "O"
     game.turn("A1")
+    game.turn("B1")
     game.turn("A2")
+    game.turn("B2")
     game.turn("A3")
     expect(ai.score(game, 3)).to eq 7
   end
 
-  it "shows a -7 score on single turn loss" do
+  it "shows a -5 score on 3 turn loss" do
     game = play.game
-    ai.ai_player = "X"
-    ai.human_player = "O"
-    game.player = "O"
+    ai.human_player = "X"
     game.turn("A1")
+    game.turn("B1")
     game.turn("A2")
+    game.turn("B2")
     game.turn("A3")
-    expect(ai.score(game, 3)).to eq -7
+    expect(ai.score(game, 3)).to eq(-7)
   end
 
   it "minimax scores remaining moves" do
     game = play.game
-    game.player = "O"
+    ai.human_player = "X"
     game.turn("A1")
-    game.player = "X"
-    game.turn("A2")
-    game.player = "O"
-    game.turn("A3")
-    game.player = "X"
     game.turn("B1")
-    puts game.board.draw
-    game.player = "O"
+    game.turn("A2")
     game.turn("B2")
-    choice = ai.minimax(game,3)
-    expect(ai.choice ).to eq("C3")
+    ai.minimax(game)
+    expect(ai.choice ).to eq("A3")
   end
+
 end

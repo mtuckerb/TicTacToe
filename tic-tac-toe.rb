@@ -11,6 +11,7 @@ class TicTacToe
     system "clear"
     until @win do
       turn
+      puts "Current: #{@game.player} Turn: #{@game.turn_no}"
     end
   end
 
@@ -32,19 +33,19 @@ class TicTacToe
   def turn
     begin
       puts @game.board.draw
-      if @play.human == @game.player
+      case @game.player
+      when @play.human
         puts "What is your next move (e.g. A1)"
         @play.place_turn(gets.chomp)
       else
         puts "Computer is thinking. Please wait…"
         @play.ai.takes_turn(@game)
       end
-      @win = @game.win?(@game.player)
+      @win = @game.win?
        if @win
          system "clear"
          puts end_game?(@win)
        end
-      @game.next_player!
       system "clear"
       return @win if end_game?(@win)
       return nil

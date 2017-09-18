@@ -1,23 +1,27 @@
 require 'pry'
 class AI
-  attr_accessor :human_player, :ai_player,:turn, :game_clone, :choice
+  attr_accessor :human_player, :ai_player, :game_clone, :choice
 
   def initialize(params = {})
     self.ai_player = ["X","O"].reject{|a| a == params[:human_player] }.first
-    self.turn = 0
+  end
 
+  def human_player=(player)
+    self.ai_player = ["X","O"].reject{|a| a == player }.first
+    @human_player = player
+    return player
   end
 
   def clone_game(game)
     self.game_clone = Marshal.load(Marshal.dump(game) )
+    return self.game_clone
   end
 
   def takes_turn(game)
-    # next_ai_turn = available_moves(game.board).sample
+    self.choice = nil
     clone_game(game)
-    minimax(game_clone, self.turn)
+    minimax(game_clone)
     game.turn(self.choice)
-    self.turn += 1
   end
 
   def available_moves(board)
@@ -38,30 +42,27 @@ class AI
   end
 
   def score(game, depth)
-    if game.win?(self.ai_player)
+    if game.win? == self.ai_player
         return 10 - depth
-    elsif game.win?(self.human_player )
+    elsif game.win? == self.human_player
         return depth - 10
     else
         return 0
     end
   end
 
-  #something weird is happening here. it's returning an array but if you t
-  def minimax(game, depth)
-    if self.turn == 0 && self.ai_player == "X"
+  def minimax(game)
+    if game.turn_no == 0 && self.ai_player == "X"
+      # First turn is set manually to speed up the AI
       self.choice = "C3"
-      return 9
+      return 10
     end
-    return score(game, depth) if game.win?("X") || game.win?("O")
-    depth += 1
+    return score(game, game.turn_no) if game.over?
     moves = []
     scores = []
     available_moves(game.board).each do | move |
-      meta_game = clone_game(game)
-      meta_game.turn(move)
-      meta_game.next_player!
-      scores.push(minimax(meta_game, depth))
+      clone_game(game).turn(move)
+      scores.push(minimax(game_clone))
       moves.push(move)
     end
     if game.player == self.ai_player
@@ -73,5 +74,6 @@ class AI
        self.choice = moves[min_score_index]
        return scores[min_score_index]
     end
+
   end
 end

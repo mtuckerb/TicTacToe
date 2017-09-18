@@ -1,7 +1,7 @@
 require_relative '../tic-tac-toe'
 describe Game do
 
-  let(:game) {Game.new(player: "X")}
+  let(:game) {Game.new}
 
   it "takes players letter choice" do
     expect(game.player).to eq("X")
@@ -9,10 +9,12 @@ describe Game do
 
   it "returns true if the last play won" do
     game.turn("A1")
+    game.turn("B1")
     game.turn("A2")
-    expect(game.win?(game.player)).to eq(nil)
+    game.turn("B2")
+    expect(game.win?).to eq(nil)
     game.turn("A3")
-    expect(game.win?(game.player)).to eq("X")
+    expect(game.win?).not_to eq(nil)
   end
 
   it "returns draw if game is a stalemate" do
@@ -32,7 +34,7 @@ describe Game do
     game.turn("C2")
     game.player = "O"
     game.turn("C3")
-    expect(game.win?("O")).to eq "draw"
+    expect(game.win?).to eq "draw"
   end
 
     it "returns the next player's letter" do

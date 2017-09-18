@@ -1,13 +1,18 @@
 
 class Play
-  attr_accessor :game, :human, :ai
+  attr_accessor :game,  :ai, :human
 
   def initialize(params = {})
-    self.human = params[:human].upcase if params[:human]
     self.game = Game.new
-    self.ai = AI.new(human_player: human)
+    self.ai = AI.new()
+    self.human = params[:human].upcase if params[:human]
   end
 
+  def human=(player)
+    @human = player.upcase
+    self.ai.human_player = player.upcase
+    return player
+  end
 
   def human_player
     return self.human.upcase if self.human
@@ -17,5 +22,7 @@ class Play
     game.player = human_player
     game.turn(coord)
   end
+
+
 
 end #class
