@@ -52,12 +52,31 @@ class AI
     end
   end
 
-  def minimax(game)
-    if game.turn_no == 0 && self.ai_player == "X"
-      # First turn is set manually to speed up the AI
+  #this really speeds the game up
+  def first_move(game)
+    if self.ai_player == "X"
       self.choice = "C3"
       return 10
+    elsif self.ai_player == "O"
+      first_play = {
+        "A1" => "B2",
+        "B1" => "B3",
+        "C1" => "B2",
+        "A2" => "A3",
+        "B2" => "C3",
+        "C2" => "C3",
+        "A3" => "B2",
+        "B3" => "C3",
+        "C3" => "B2" }
+       m = Matrix[*game.board.cells].index{|a| a}
+       coord = "#{alphabetize(m[0])}#{m[1]+1}"
+       self.choice = first_play[coord]
+       return "10"
     end
+  end
+
+  def minimax(game)
+    return first_move(game) if game.turn_no == 0
     return score(game) if game.win?
     moves = []
     scores = []
